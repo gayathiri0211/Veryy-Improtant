@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Sis! 🎂</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    :root {
+      --primary: #ff4757;
+      --bg: #fff0f3;
+      --card-bg: #ffffff;
+      --accent: #ff6b81;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+      font-family: 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #2f3542;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+    h1 { font-size: 2.2rem; margin-bottom: 8px; color: #d63384; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
+    .subtitle { font-size: 1.05rem; margin-bottom: 20px; color: #57606f; }
+
+    /* Interactive Cake */
+    .cake-container {
+      position: relative;
+      width: 200px;
+      height: 160px;
+      margin: 15px auto;
+      cursor: pointer;
+    }
+    .plate {
+      width: 240px; height: 15px; background: #e0e0e0;
+      border-radius: 10px; position: absolute; bottom: 0; left: -20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .layer {
+      position: absolute; width: 200px; height: 50px; background: #ff85a2;
+      border-radius: 10px 10px 0 0; bottom: 15px; box-shadow: inset 0 -10px 0 #f76c8c;
+    }
+    .layer-top {
+      position: absolute; width: 160px; height: 45px; background: #fff0f5;
+      border-radius: 10px 10px 0 0; bottom: 65px; left: 20px; box-shadow: inset 0 -8px 0 #ffd1dc;
+    }
+    .candle {
+      position: absolute; width: 12px; height: 35px;
+      background: repeating-linear-gradient(45deg, #70a1ff, #70a1ff 5px, #fff 5px, #fff 10px);
+      bottom: 110px; border-radius: 3px;
+    }
+    .candle-1 { left: 45px; } .candle-2 { left: 94px; } .candle-3 { left: 143px; }
+    .flame {
+      position: absolute; width: 12px; height: 18px; background: #ff9f43;
+      border-radius: 50% 50% 20% 20%; top: -18px; box-shadow: 0 0 10px #ff9f43;
+      animation: flicker 0.6s infinite alternate;
+    }
+    @keyframes flicker {
+      0% { transform: scale(1); opacity: 0.9; }
+      100% { transform: scale(1.15); opacity: 1; }
+    }
+    .flame.out { display: none; }
+
+    /* Quiz Container */
+    .quiz-box {
+      display: none; background: white; padding: 25px; border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15); max-width: 440px; width: 100%;
+      margin-top: 20px; position: relative; animation: popIn 0.4s ease-out;
+    }
+    @keyframes popIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .quiz-box h3 { color: #ff4757; margin-bottom: 15px; font-size: 1.25rem; line-height: 1.4; }
+    .options-grid {
+      display: flex; flex-direction: column; gap: 12px; margin-top: 15px; position: relative;
+    }
+    .btn-option {
+      background: #f1f2f6; border: 2px solid #dfe4ea; padding: 12px 18px;
+      border-radius: 12px; font-size: 1rem; font-weight: 600; color: #2f3542;
+      cursor: pointer; transition: background 0.2s, transform 0.2s, top 0.2s, left 0.2s;
+      width: 100%; position: relative;
+    }
+    .btn-option.correct:hover { background: #eccc68; border-color: #ffa502; transform: scale(1.02); }
+
+    /* Runaway dodging button style */
+    .btn-option.runaway {
+      position: relative; transition: all 0.15s ease-out; z-index: 10;
+    }
+
+    /* Final Wish Card */
+    .card {
+      display: none; background: white; padding: 25px; border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15); max-width: 440px; width: 100%;
+      margin-top: 20px; animation: popIn 0.5s ease-out;
+    }
+    .card h2 { color: #ff4757; margin-bottom: 12px; }
+    .card p { font-size: 1rem; line-height: 1.6; color: #57606f; margin-bottom: 20px; }
+
+    .gpay-btn {
+      background: #1a73e8; color: white; border: none; padding: 14px 24px;
+      font-size: 1.05rem; font-weight: 600; border-radius: 30px; cursor: pointer;
+      box-shadow: 0 4px 12px rgba(26,115,232,0.4); display: inline-flex;
+      align-items: center; gap: 8px; transition: transform 0.2s;
+    }
+    .gpay-btn:hover { transform: scale(1.05); }
+
+    /* GPay Popup Modal */
+    .modal-overlay {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+      justify-content: center; align-items: center; z-index: 100;
+    }
+    .gpay-card {
+      background: white; width: 320px; border-radius: 24px; padding: 25px;
+      text-align: center; box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+    }
+    .amount { font-size: 2.8rem; font-weight: bold; color: #1e8e3e; margin: 10px 0; }
+    .status-badge {
+      background: #e6f4ea; color: #137333; display: inline-block;
+      padding: 6px 16px; border-radius: 20px; font-weight: 600; font-size: 0.9rem;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed; top: 20px; background: #ff4757; color: white;
+      padding: 10px 20px; border-radius: 25px; font-size: 0.95rem; font-weight: bold;
+      box-shadow: 0 4px 15px rgba(255,71,87,0.4); opacity: 0; transition: opacity 0.3s;
+      pointer-events: none; z-index: 200;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="toast" id="toast">⚠️ Wrong answer, silly! Try again 😜</div>
+
+  <h1>Happy Birthday, Umaaaaa! 🎂</h1>
+  <p class="subtitle instruction">Tap the cake to blow out the candles & unlock your surprise!</p>
+
+  <div class="cake-container" onclick="blowCandles()">
+    <div class="candle candle-1"><div class="flame"></div></div>
+    <div class="candle candle-2"><div class="flame"></div></div>
+    <div class="candle candle-3"><div class="flame"></div></div>
+    <div class="layer-top"></div>
+    <div class="layer"></div>
+    <div class="plate"></div>
+  </div>
+
+  <!-- Quiz Box -->
+  <div class="quiz-box" id="quizBox">
+    <h3 id="quizQuestion">Question goes here</h3>
+    <div class="options-grid" id="optionsGrid"></div>
+  </div>
+
+  <!-- Final Wish Card -->
+  <div class="card" id="wishCard">
+    <h2>💖 To My Favorite Sissy Ever!</h2>
+    <p>
+      You passed the ultimate sibling test! 🥳 <br>
+      Thank you for being the best (and most tolerant) sissy in the world.
+      (*YOU KNOW THIS IS TRUE!!! 😎) <br><br>
+      You deserve all the love, happiness, and money today!
+    </p>
+    <button class="gpay-btn" onclick="openGPayReward()">
+      💳 Claim ₹1,000 on GPay
+    </button>
+  </div>
+
+  <!-- GPay Modal -->
+  <div class="modal-overlay" id="gpayModal">
+    <div class="gpay-card">
+      <svg width="60" height="60" viewBox="0 0 40 40">
+        <path fill="#4285F4" d="M19.7 18.2v4.3h10.4c-.4 2.5-2.6 7.4-10.4 7.4-6.3 0-11.4-5.2-11.4-11.6s5.1-11.6 11.4-11.6c3.6 0 6 1.5 7.4 2.8l3.4-3.3C28.3 4.1 24.3 2.5 19.7 2.5 10.1 2.5 2.3 10.3 2.3 19.9s7.8 17.4 17.4 17.4c10.1 0 16.7-7.1 16.7-17 0-1.1-.1-2-.3-2.9H19.7z"/>
+      </svg>
+      <div class="status-badge" style="margin-top: 10px;">✓ Cash Received</div>
+      <h3 style="margin-top: 10px;">Birthday Reward</h3>
+      <div class="amount">₹1,000</div>
+      <p style="color: #666; font-size: 0.9rem; margin-bottom: 20px;">Opening Google Pay app to complete transfer...</p>
+      <button class="gpay-btn" style="width: 100%; justify-content: center;" onclick="closeGPay()">
+        Done 🥳
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // ⚠️ REPLACE THIS WITH YOUR REAL UPI ID (e.g. '9876543210@ybl' or 'yourname@okicici')
+    const YOUR_UPI_ID = "gayathirigopalakrishnan02-2@okhdfcbank"; 
+
+    let blownOut = false;
+    let currentQ = 0;
+
+    const questions = [
+      {
+        q: "Q1: Who is officially the SMARTEST & COOLEST sibling in this family? 🧠✨",
+        options: [
+          { text: "My Awesome Sibling (You!) ❤️", correct: true },
+          { text: "Me (I am delusional) 😜", correct: false, warning: "Nice try! Incorrect answer! 🚫" }
+        ]
+      },
+      {
+        q: "Q2: Who is ALWAYS right in every argument we have ever had? 🏆",
+        options: [
+          { text: "You, obviously! 👑", correct: true },
+          { text: "Neither of us 🤷‍♀️", correct: false, warning: "Error 404: Option Not Allowed! 🙅‍♂️" }
+        ]
+      },
+      {
+        q: "Q3: How much do you love your favorite sibling right now? 🙈",
+        options: [
+          { text: "Infinite / Beyond measure! 🚀", correct: true },
+          { text: "Just 10% 👎", correct: false, warning: "This option is run away material! 🏃‍♀️" }
+        ]
+      }
+    ];
+
+    // Web Audio SFX synth
+    function playSound(type) {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain); gain.connect(ctx.destination);
+
+        if (type === 'blow') {
+          osc.type = 'sine'; osc.frequency.setValueAtTime(400, ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.3);
+          gain.gain.setValueAtTime(0.3, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+          osc.start(); osc.stop(ctx.currentTime + 0.3);
+        } else if (type === 'dodge') {
+          osc.type = 'triangle'; osc.frequency.setValueAtTime(300, ctx.currentTime);
+          osc.frequency.linearRampToValueAtTime(150, ctx.currentTime + 0.15);
+          gain.gain.setValueAtTime(0.2, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+          osc.start(); osc.stop(ctx.currentTime + 0.15);
+        }
+      } catch(e) {}
+    }
+
+    function blowCandles() {
+      if (blownOut) return;
+      playSound('blow');
+      document.querySelectorAll('.flame').forEach(f => f.classList.add('out'));
+      confetti({ particleCount: 100, spread: 60, origin: { y: 0.6 } });
+      document.querySelector('.instruction').innerText = "Answer the quiz to unlock your prize! 👇";
+      blownOut = true;
+      showQuestion();
+    }
+
+    function showQuestion() {
+      if (currentQ >= questions.length) {
+        document.getElementById('quizBox').style.display = 'none';
+        document.getElementById('wishCard').style.display = 'block';
+        confetti({ particleCount: 150, spread: 80, origin: { y: 0.5 } });
+        return;
+      }
+
+      const qData = questions[currentQ];
+      document.getElementById('quizBox').style.display = 'block';
+      document.getElementById('quizQuestion').innerText = qData.q;
+      const grid = document.getElementById('optionsGrid');
+      grid.innerHTML = '';
+
+      qData.options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'btn-option' + (opt.correct ? ' correct' : ' runaway');
+        btn.innerText = opt.text;
+
+        if (opt.correct) {
+          btn.onclick = () => {
+            currentQ++;
+            confetti({ particleCount: 50, spread: 50 });
+            showQuestion();
+          };
+        } else {
+          // Dodge behavior when hovered or clicked
+          const dodge = (e) => {
+            e.preventDefault();
+            playSound('dodge');
+            showToast(opt.warning);
+
+            const randomX = (Math.random() - 0.5) * 260;
+            const randomY = (Math.random() - 0.5) * 160;
+            btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
+          };
+
+          // Reset behavior when mouse leaves
+          const reset = () => {
+            btn.style.transform = 'translate(0px, 0px)';
+          };
+
+          btn.addEventListener('mouseenter', dodge);
+          btn.addEventListener('touchstart', dodge);
+          btn.addEventListener('click', dodge);
+          btn.addEventListener('mouseleave', reset);
+        }
+
+        grid.appendChild(btn);
+      });
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.innerText = msg;
+      t.style.opacity = '1';
+      setTimeout(() => { t.style.opacity = '0'; }, 1800);
+    }
+
+    function openGPayReward() {
+      confetti({ particleCount: 200, spread: 100, origin: { y: 0.5 } });
+      document.getElementById('gpayModal').style.display = 'flex';
+
+      const upiUrl = `upi://pay?pa=${encodeURIComponent(YOUR_UPI_ID)}&pn=Sister&am=1000&cu=INR&tn=${encodeURIComponent('Happy Birthday Sister! ❤️ Gift from Sibling')}`;
+
+      setTimeout(() => {
+        window.location.href = upiUrl;
+      }, 1500);
+    }
+
+    function closeGPay() {
+      document.getElementById('gpayModal').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
