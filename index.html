@@ -186,9 +186,9 @@
         <path fill="#4285F4" d="M19.7 18.2v4.3h10.4c-.4 2.5-2.6 7.4-10.4 7.4-6.3 0-11.4-5.2-11.4-11.6s5.1-11.6 11.4-11.6c3.6 0 6 1.5 7.4 2.8l3.4-3.3C28.3 4.1 24.3 2.5 19.7 2.5 10.1 2.5 2.3 10.3 2.3 19.9s7.8 17.4 17.4 17.4c10.1 0 16.7-7.1 16.7-17 0-1.1-.1-2-.3-2.9H19.7z"/>
       </svg>
       <div class="status-badge" style="margin-top: 10px;">✓ Cash Received</div>
-      <h3 style="margin-top: 10px;">Birthday Reward</h3>
+      <h3 style="margin-top: 10px;">Just kidding, birthday girl! 🥳</h3>
       <div class="amount">₹1,000</div>
-      <p style="color: #666; font-size: 0.9rem; margin-bottom: 20px;">Opening Google Pay app to complete transfer...</p>
+      <p style="color: #666; font-size: 0.9rem; margin-bottom: 20px;">Opening Google Pay to transfer your ₹1,000 gift! ❤️</p>
       <button class="gpay-btn" style="width: 100%; justify-content: center;" onclick="closeGPay()">
         Done 🥳
       </button>
@@ -196,8 +196,8 @@
   </div>
 
   <script>
-    // ⚠️ REPLACE THIS WITH YOUR REAL UPI ID (e.g. '9876543210@ybl' or 'yourname@okicici')
-    const YOUR_UPI_ID = "gayathirigopalakrishnan02-2@okhdfcbank"; 
+    // ⚠️ HER ACTUAL UPI ID
+    const SISTER_UPI_ID = "umagopalakrishnan16-1@okaxis"; 
 
     let blownOut = false;
     let currentQ = 0;
@@ -319,15 +319,20 @@
       setTimeout(() => { t.style.opacity = '0'; }, 1800);
     }
 
+    // Prank Twist & UPI Transfer to Her Account
     function openGPayReward() {
-      confetti({ particleCount: 200, spread: 100, origin: { y: 0.5 } });
-      document.getElementById('gpayModal').style.display = 'flex';
+      const confirmSend = confirm("⚠️ Are you sure you want to send ₹1,000 to your favorite sissy?");
+      
+      if (confirmSend) {
+        confetti({ particleCount: 200, spread: 100, origin: { y: 0.5 } });
+        document.getElementById('gpayModal').style.display = 'flex';
 
-      const upiUrl = `upi://pay?pa=${encodeURIComponent(YOUR_UPI_ID)}&pn=Sister&am=1000&cu=INR&tn=${encodeURIComponent('Happy Birthday Sister! ❤️ Gift from Sibling')}`;
+        const upiUrl = `upi://pay?pa=${encodeURIComponent(SISTER_UPI_ID)}&pn=Uma%20Gopalakrishnan&am=1000&cu=INR&tn=${encodeURIComponent('Happy Birthday Uma! ❤️ From Gayathiri')}`;
 
-      setTimeout(() => {
-        window.location.href = upiUrl;
-      }, 1500);
+        setTimeout(() => {
+          window.location.href = upiUrl;
+        }, 1800);
+      }
     }
 
     function closeGPay() {
