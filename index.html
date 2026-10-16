@@ -3,19 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy Birthday Sissy! 🎂</title>
+  <title>Happy Birthday Uma Sissy! 🎂</title>
+
+  <!-- Canvas Confetti Library -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
   <style>
     :root {
       --primary: #70a1ff;
       --bg: #fcfcfd;
       --card-bg: #ffffff;
       --accent: #a29bfe;
+      --sky-blue: #74b9ff;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      background: #fcfcfd;
-      font-family: 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg);
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -26,180 +36,375 @@
       padding: 20px;
       overflow-x: hidden;
     }
-    h1 { font-size: 2.2rem; margin-bottom: 8px; color: #6c5ce7; text-shadow: 1px 1px 2px rgba(0,0,0,0.05); }
-    .subtitle { font-size: 1.05rem; margin-bottom: 12px; color: #ff4757; font-weight: 600; }
-    .warning-text { font-size: 0.95rem; color: #57606f; margin-bottom: 8px; }
 
-    /* Interactive Cake with Lavender & Blue Layers */
+    .main-container {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 2.1rem;
+      margin-bottom: 8px;
+      color: #6c5ce7;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      margin-bottom: 14px;
+      color: #ff4757;
+      font-weight: 700;
+      line-height: 1.4;
+      padding: 0 10px;
+    }
+
+    .warning-text {
+      font-size: 0.9rem;
+      color: #57606f;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    /* ----------------------------------
+       3D Interactive Cake Styling
+    ---------------------------------- */
     .cake-container {
       position: relative;
       width: 200px;
       height: 160px;
-      margin: 20px auto;
+      margin: 24px auto;
       cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
     }
+
     .plate {
-      width: 240px; height: 15px; background: #dfe4ea;
-      border-radius: 10px; position: absolute; bottom: 0; left: -20px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      width: 240px;
+      height: 15px;
+      background: #dfe4ea;
+      border-radius: 10px;
+      position: absolute;
+      bottom: 0;
+      left: -20px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.08);
     }
+
+    /* Bottom Layer - Lavender */
     .layer {
-      position: absolute; width: 200px; height: 50px; background: #a29bfe;
-      border-radius: 10px 10px 0 0; bottom: 15px; box-shadow: inset 0 -10px 0 #6c5ce7;
+      position: absolute;
+      width: 200px;
+      height: 50px;
+      background: var(--accent);
+      border-radius: 12px 12px 0 0;
+      bottom: 15px;
+      box-shadow: inset 0 -10px 0 #6c5ce7;
     }
+
+    /* Top Layer - Sky Blue */
     .layer-top {
-      position: absolute; width: 160px; height: 45px; background: #74b9ff;
-      border-radius: 10px 10px 0 0; bottom: 65px; left: 20px; box-shadow: inset 0 -8px 0 #0984e3;
+      position: absolute;
+      width: 160px;
+      height: 45px;
+      background: var(--sky-blue);
+      border-radius: 10px 10px 0 0;
+      bottom: 65px;
+      left: 20px;
+      box-shadow: inset 0 -8px 0 #0984e3;
     }
+
+    /* Candles */
     .candle {
-      position: absolute; width: 12px; height: 35px;
+      position: absolute;
+      width: 12px;
+      height: 35px;
       background: repeating-linear-gradient(45deg, #ff7675, #ff7675 5px, #fff 5px, #fff 10px);
-      bottom: 110px; border-radius: 3px;
+      bottom: 110px;
+      border-radius: 3px;
     }
-    .candle-1 { left: 45px; } .candle-2 { left: 94px; } .candle-3 { left: 143px; }
+
+    .candle-1 { left: 45px; }
+    .candle-2 { left: 94px; }
+    .candle-3 { left: 143px; }
+
     .flame {
-      position: absolute; width: 12px; height: 18px; background: #ff9f43;
-      border-radius: 50% 50% 20% 20%; top: -18px; box-shadow: 0 0 10px #ff9f43;
-      animation: flicker 0.6s infinite alternate;
+      position: absolute;
+      width: 12px;
+      height: 18px;
+      background: #ff9f43;
+      border-radius: 50% 50% 20% 20%;
+      top: -18px;
+      box-shadow: 0 0 12px #ff9f43;
+      animation: flicker 0.6s infinite alternate ease-in-out;
     }
+
     @keyframes flicker {
       0% { transform: scale(1); opacity: 0.9; }
-      100% { transform: scale(1.15); opacity: 1; }
+      100% { transform: scale(1.18); opacity: 1; }
     }
-    .flame.out { display: none; }
 
-    /* Quiz Container */
+    .flame.out {
+      display: none;
+    }
+
+    /* ----------------------------------
+       Quiz Container
+    ---------------------------------- */
     .quiz-box {
-      display: none; background: white; padding: 25px; border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08); max-width: 440px; width: 100%;
-      margin-top: 20px; position: relative; animation: popIn 0.4s ease-out;
+      display: none;
+      background: var(--card-bg);
+      padding: 24px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      width: 100%;
+      margin-top: 15px;
+      position: relative;
+      animation: popIn 0.4s ease-out;
       border: 1px solid #f1f2f6;
     }
+
     @keyframes popIn {
-      0% { transform: scale(0.8); opacity: 0; }
+      0% { transform: scale(0.85); opacity: 0; }
       100% { transform: scale(1); opacity: 1; }
     }
-    .quiz-box h3 { color: #6c5ce7; margin-bottom: 15px; font-size: 1.25rem; line-height: 1.4; }
+
+    .quiz-box h3 {
+      color: #6c5ce7;
+      margin-bottom: 18px;
+      font-size: 1.2rem;
+      line-height: 1.45;
+    }
+
     .options-grid {
-      display: flex; flex-direction: column; gap: 12px; margin-top: 15px; position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 15px;
+      position: relative;
     }
+
     .btn-option {
-      background: #f8f9fa; border: 2px solid #dfe4ea; padding: 12px 18px;
-      border-radius: 12px; font-size: 1rem; font-weight: 600; color: #2f3542;
-      cursor: pointer; transition: background 0.2s, transform 0.2s, top 0.2s, left 0.2s;
-      width: 100%; position: relative;
+      background: #f8f9fa;
+      border: 2px solid #dfe4ea;
+      padding: 14px 18px;
+      border-radius: 12px;
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: #2f3542;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s ease-out, border-color 0.2s;
+      width: 100%;
+      position: relative;
+      user-select: none;
+      outline: none;
     }
-    .btn-option.correct:hover { background: #ffeaa7; border-color: #fdcb6e; transform: scale(1.02); }
 
-    /* Runaway dodging button style */
+    .btn-option.correct:hover {
+      background: #ffeaa7;
+      border-color: #fdcb6e;
+      transform: scale(1.02);
+    }
+
     .btn-option.runaway {
-      position: relative; transition: all 0.15s ease-out; z-index: 10;
+      position: relative;
+      transition: transform 0.15s ease-out;
+      z-index: 10;
     }
 
-    /* Final Wish Card */
+    /* ----------------------------------
+       Final Wish Card
+    ---------------------------------- */
     .card {
-      display: none; background: white; padding: 25px; border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08); max-width: 440px; width: 100%;
-      margin-top: 20px; animation: popIn 0.5s ease-out; border: 1px solid #f1f2f6;
+      display: none;
+      background: var(--card-bg);
+      padding: 26px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      width: 100%;
+      margin-top: 15px;
+      animation: popIn 0.5s ease-out;
+      border: 1px solid #f1f2f6;
     }
-    .card h2 { color: #6c5ce7; margin-bottom: 12px; }
-    .card p { font-size: 1rem; line-height: 1.6; color: #57606f; margin-bottom: 20px; }
 
-    .gpay-btn {
-      background: #1a73e8; color: white; border: none; padding: 14px 24px;
-      font-size: 1.05rem; font-weight: 600; border-radius: 30px; cursor: pointer;
-      box-shadow: 0 4px 12px rgba(26,115,232,0.4); display: inline-flex;
-      align-items: center; gap: 8px; transition: transform 0.2s;
+    .card h2 {
+      color: #6c5ce7;
+      margin-bottom: 14px;
+      font-size: 1.5rem;
     }
-    .gpay-btn:hover { transform: scale(1.05); }
 
-    /* GPay Popup Modal */
+    .card p {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #57606f;
+      margin-bottom: 22px;
+    }
+
+    .action-btn {
+      background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+      color: white;
+      border: none;
+      padding: 15px 26px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 6px 16px rgba(108, 92, 231, 0.35);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      width: 100%;
+    }
+
+    .action-btn:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 20px rgba(108, 92, 231, 0.45);
+    }
+
+    .action-btn:active {
+      transform: translateY(1px);
+    }
+
+    /* ----------------------------------
+       Custom Notification Modal
+    ---------------------------------- */
     .modal-overlay {
-      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
-      justify-content: center; align-items: center; z-index: 100;
-    }
-    .gpay-card {
-      background: white; width: 320px; border-radius: 24px; padding: 25px;
-      text-align: center; box-shadow: 0 15px 30px rgba(0,0,0,0.25);
-    }
-    .amount { font-size: 2.8rem; font-weight: bold; color: #1e8e3e; margin: 10px 0; }
-    .status-badge {
-      background: #e6f4ea; color: #137333; display: inline-block;
-      padding: 6px 16px; border-radius: 20px; font-weight: 600; font-size: 0.9rem;
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(5px);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 20px;
     }
 
-    /* Toast Notification */
+    .modal-card {
+      background: white;
+      width: 100%;
+      max-width: 350px;
+      border-radius: 24px;
+      padding: 28px 22px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      animation: popIn 0.3s ease-out;
+    }
+
+    .amount {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: #1e8e3e;
+      margin: 12px 0;
+    }
+
+    .status-badge {
+      background: #e6f4ea;
+      color: #137333;
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    /* ----------------------------------
+       Toast Notification
+    ---------------------------------- */
     .toast {
-      position: fixed; top: 20px; background: #ff4757; color: white;
-      padding: 10px 20px; border-radius: 25px; font-size: 0.95rem; font-weight: bold;
-      box-shadow: 0 4px 15px rgba(255,71,87,0.4); opacity: 0; transition: opacity 0.3s;
-      pointer-events: none; z-index: 200;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ff4757;
+      color: white;
+      padding: 12px 22px;
+      border-radius: 30px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      box-shadow: 0 6px 20px rgba(255, 71, 87, 0.35);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      z-index: 2000;
+      width: max-content;
+      max-width: 90vw;
+    }
+
+    .toast.success {
+      background: #2ed573;
+      box-shadow: 0 6px 20px rgba(46, 213, 115, 0.35);
     }
   </style>
 </head>
 <body>
 
+  <!-- Toast for wrong choice warnings / success alerts -->
   <div class="toast" id="toast">⚠️ Wrong answer, silly! Try again 😜</div>
 
-  <h1>Happy Birthday, Umaaaaa! 🎂🎉</h1>
-  <p class="subtitle instruction">MAKE SURE TO HAVE SOME RECORDING ATLEAST TO SHARE TO FRIENDSSSS!!!!😘😘💕</p> 
-  
-  <p class="warning-text">Tap the cake to blow out the candles & unlock your surprise! 🕯️</p>
-  <p class="warning-text">"DONTT EVER TRY TO PICK THE WRONG ANSWERRSSSSSS!!" 😠😠😠😠😠😠😠</p>
-  <p class="warning-text">"This berry berry importantu so choose wise... I'm watchingg!!!" 🥸🧐😈</p>
+  <div class="main-container">
+    <h1>Happy Birthday, Umaaaaa! 🎂🎉</h1>
+    <p class="subtitle instruction">
+      MAKE SURE TO HAVE SOME RECORDING ATLEAST TO SHARE TO FRIENDSSSS!!!!😘😘💕
+    </p> 
+    
+    <p class="warning-text">Tap the cake to blow out the candles & unlock your surprise! 🕯️</p>
+    <p class="warning-text">DONTT EVER TRY TO PICK THE WRONG ANSWERRSSSSSS!! 😠😠😠😠😠😠😠</p>
+    <p class="warning-text">This berry berry importantu so choose wise... I'm watchingg!!! 🥸🧐😈</p>
 
-  <div class="cake-container" onclick="blowCandles()">
-    <div class="candle candle-1"><div class="flame"></div></div>
-    <div class="candle candle-2"><div class="flame"></div></div>
-    <div class="candle candle-3"><div class="flame"></div></div>
-    <div class="layer-top"></div>
-    <div class="layer"></div>
-    <div class="plate"></div>
-  </div>
+    <!-- Interactive Cake -->
+    <div class="cake-container" onclick="blowCandles()">
+      <div class="candle candle-1"><div class="flame"></div></div>
+      <div class="candle candle-2"><div class="flame"></div></div>
+      <div class="candle candle-3"><div class="flame"></div></div>
+      <div class="layer-top"></div>
+      <div class="layer"></div>
+      <div class="plate"></div>
+    </div>
 
-  <!-- Quiz Box -->
-  <div class="quiz-box" id="quizBox">
-    <h3 id="quizQuestion">Question goes here</h3>
-    <div class="options-grid" id="optionsGrid"></div>
-  </div>
+    <!-- Quiz Section -->
+    <div class="quiz-box" id="quizBox">
+      <h3 id="quizQuestion">Question text</h3>
+      <div class="options-grid" id="optionsGrid"></div>
+    </div>
 
-  <!-- Final Wish Card -->
-  <div class="card" id="wishCard">
-    <h2>💖 To My Favorite Sissy Ever!</h2>
-    <p>
-      You passed the ultimate sibling test! 🥳 <br>
-      Thank you for being the best (and most tolerant) sissy in the world.
-      (*YOU KNOW THIS IS TRUE!!! 😎) <br><br>
-      You deserve all the love, happiness, and money today!
-      MAKE SURE 1000000000% TO CLAIM YOUR GOODLUCK GIFT!!!!!!
-    </p>
-    <button class="gpay-btn" onclick="openGPayReward()">
-      💳 Claim ₹1,000 on GPay
-    </button>
-  </div>
-
-  <!-- GPay Modal -->
-  <div class="modal-overlay" id="gpayModal">
-    <div class="gpay-card">
-      <svg width="60" height="60" viewBox="0 0 40 40">
-        <path fill="#4285F4" d="M19.7 18.2v4.3h10.4c-.4 2.5-2.6 7.4-10.4 7.4-6.3 0-11.4-5.2-11.4-11.6s5.1-11.6 11.4-11.6c3.6 0 6 1.5 7.4 2.8l3.4-3.3C28.3 4.1 24.3 2.5 19.7 2.5 10.1 2.5 2.3 10.3 2.3 19.9s7.8 17.4 17.4 17.4c10.1 0 16.7-7.1 16.7-17 0-1.1-.1-2-.3-2.9H19.7z"/>
-      </svg>
-      <div class="status-badge" style="margin-top: 10px;">🎁 Ready to Claim</div>
-      <h3 style="margin-top: 10px;">Just kidding, birthday girl! 🥳</h3>
-      <div class="amount">₹1,000</div>
-      <p style="color: #666; font-size: 0.9rem; margin-bottom: 20px;">
-        Tap below to open Google Pay and tap <b>Request</b> to get your ₹1,000 from Gayathiri! ❤️
+    <!-- Final Wish Card -->
+    <div class="card" id="wishCard">
+      <h2>💖 To My Favorite Sissy Ever!</h2>
+      <p>
+        Happy Birthday to the most amazing, hilarious, and caring sister! 🥳 <br><br>
+        You passed the ultimate sibling test with flying colors.
+        Thank you for bringing so much joy, laughter, and endless fun into my life. (*YOU KNOW THIS IS TRUE!!! 😎) <br><br>
+        You deserve all the love, happiness, and special gifts today!
+        MAKE SURE 1000000000% TO CLAIM YOUR GOODLUCK GIFT!!!!!!
       </p>
-      <button class="gpay-btn" style="width: 100%; justify-content: center;" onclick="triggerGPayRequest()">
-        📲 Open GPay & Request ₹1,000
+      <button class="action-btn" onclick="openGPayReward()">
+        🎁 Claim ₹1,000 on GPay
+      </button>
+    </div>
+  </div>
+
+  <!-- Prank Modal & Instant Alert Trigger -->
+  <div class="modal-overlay" id="gpayModal">
+    <div class="modal-card">
+      <div style="font-size: 3rem; margin-bottom: 8px;">🥳</div>
+      <div class="status-badge" id="modalBadge">🎁 Special Birthday Gift</div>
+      <h3 style="margin-top: 12px; color: #2f3542;">Just kidding, birthday girl! 🥳</h3>
+      <div class="amount">₹1,000</div>
+      <p style="color: #666; font-size: 0.92rem; margin-bottom: 20px; line-height: 1.5;" id="modalDesc">
+        Tap below to notify your sweet little cute babysister! so she can transfer to you directly! ❤️
+      </p>
+      <button class="action-btn" id="claimBtn" onclick="sendEmailNotification()">
+        📲 Notify Gayathiri to Send ₹1,000
       </button>
     </div>
   </div>
 
   <script>
-    // ⚠️ Put YOUR phone number (linked to GPay) or your UPI ID here:
-    const YOUR_PHONE_OR_UPI = "gayathirigopalakrishnan02-2@okhdfcbank"; 
+    const FORMSPREE_ENDPOINT = "https://formspree.io/f/mljgalyk";
 
     let blownOut = false;
     let currentQ = 0;
@@ -228,26 +433,31 @@
       }
     ];
 
-    // Web Audio SFX synth
+    // Web Audio Sound Synthesizer
     function playSound(type) {
       try {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
-        osc.connect(gain); gain.connect(ctx.destination);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
 
         if (type === 'blow') {
-          osc.type = 'sine'; osc.frequency.setValueAtTime(400, ctx.currentTime);
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(400, ctx.currentTime);
           osc.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.3);
           gain.gain.setValueAtTime(0.3, ctx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
-          osc.start(); osc.stop(ctx.currentTime + 0.3);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.3);
         } else if (type === 'dodge') {
-          osc.type = 'triangle'; osc.frequency.setValueAtTime(300, ctx.currentTime);
-          osc.frequency.linearRampToValueAtTime(150, ctx.currentTime + 0.15);
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(320, ctx.currentTime);
+          osc.frequency.linearRampToValueAtTime(160, ctx.currentTime + 0.15);
           gain.gain.setValueAtTime(0.2, ctx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
-          osc.start(); osc.stop(ctx.currentTime + 0.15);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.15);
         }
       } catch(e) {}
     }
@@ -256,7 +466,7 @@
       if (blownOut) return;
       playSound('blow');
       document.querySelectorAll('.flame').forEach(f => f.classList.add('out'));
-      confetti({ particleCount: 100, spread: 60, origin: { y: 0.6 } });
+      confetti({ particleCount: 110, spread: 70, origin: { y: 0.6 } });
       document.querySelector('.instruction').innerText = "Answer the quiz to unlock your prize! 👇";
       blownOut = true;
       showQuestion();
@@ -266,7 +476,7 @@
       if (currentQ >= questions.length) {
         document.getElementById('quizBox').style.display = 'none';
         document.getElementById('wishCard').style.display = 'block';
-        confetti({ particleCount: 150, spread: 80, origin: { y: 0.5 } });
+        confetti({ particleCount: 160, spread: 90, origin: { y: 0.5 } });
         return;
       }
 
@@ -288,18 +498,18 @@
             showQuestion();
           };
         } else {
-          // Dodge behavior when hovered or clicked
+          // Dodge interaction
           const dodge = (e) => {
             e.preventDefault();
             playSound('dodge');
             showToast(opt.warning);
 
-            const randomX = (Math.random() - 0.5) * 260;
-            const randomY = (Math.random() - 0.5) * 160;
+            const randomX = (Math.random() - 0.5) * 240;
+            const randomY = (Math.random() - 0.5) * 140;
             btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
           };
 
-          // Reset behavior when pointer leaves
+          // Reset on pointerleave
           const reset = () => {
             btn.style.transform = 'translate(0px, 0px)';
           };
@@ -307,6 +517,7 @@
           btn.addEventListener('mouseenter', dodge);
           btn.addEventListener('touchstart', dodge);
           btn.addEventListener('click', dodge);
+          btn.addEventListener('pointerleave', reset);
           btn.addEventListener('mouseleave', reset);
         }
 
@@ -314,33 +525,64 @@
       });
     }
 
-    function showToast(msg) {
+    function showToast(msg, isSuccess = false) {
       const t = document.getElementById('toast');
       t.innerText = msg;
+      if (isSuccess) {
+        t.classList.add('success');
+      } else {
+        t.classList.remove('success');
+      }
       t.style.opacity = '1';
-      setTimeout(() => { t.style.opacity = '0'; }, 1800);
+      setTimeout(() => { t.style.opacity = '0'; }, 2500);
     }
 
-    // Prank Twist
     function openGPayReward() {
-      const confirmSend = confirm("⚠️ Are you sure you want to send ₹1,000 to your favorite sissy?");
-      
+      const confirmSend = confirm("Are you sure you want to send ₹1,000 to your favorite sissy?");
       if (confirmSend) {
         confetti({ particleCount: 200, spread: 100, origin: { y: 0.5 } });
         document.getElementById('gpayModal').style.display = 'flex';
       }
     }
 
-    function triggerGPayRequest() {
-      showToast("Opening GPay... Tap Request! 💸");
-      setTimeout(() => {
-        // Direct GPay deep link to open your profile chat where she can tap 'Request'
-        window.location.href = `upi://pay?pa=${encodeURIComponent(YOUR_PHONE_OR_UPI)}&pn=Gayathiri`;
-      }, 600);
-    }
+    // Sends AJAX POST request to Formspree endpoint
+    async function sendEmailNotification() {
+      const claimBtn = document.getElementById('claimBtn');
+      const modalBadge = document.getElementById('modalBadge');
 
-    function closeGPay() {
-      document.getElementById('gpayModal').style.display = 'none';
+      claimBtn.disabled = true;
+      claimBtn.innerText = "Sending Notification... ⏳";
+
+      try {
+        const response = await fetch(FORMSPREE_ENDPOINT, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body: JSON.stringify({
+            recipient: "Uma Gopalakrishnan",
+            amount: "1000",
+            message: "Uma completed the quiz and clicked claim reward!"
+          })
+        });
+
+        if (response.ok) {
+          confetti({ particleCount: 200, spread: 100 });
+          claimBtn.innerText = "✓ Notification Sent!";
+          claimBtn.style.background = "#2ed573";
+          modalBadge.innerText = "✓ Notification Sent!";
+          showToast("Email sent to Gayathiri! 🎉 She will transfer ₹1,000 to you now! ❤️", true);
+        } else {
+          showToast("⚠️ Could not send email. Please try again!");
+          claimBtn.disabled = false;
+          claimBtn.innerText = "📲 Notify Gayathiri to Send ₹1,000";
+        }
+      } catch (error) {
+        showToast("⚠️ Network error. Please check connection!");
+        claimBtn.disabled = false;
+        claimBtn.innerText = "📲 Notify Gayathiri to Send ₹1,000";
+      }
     }
   </script>
 </body>
