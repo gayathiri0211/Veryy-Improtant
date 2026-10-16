@@ -26,15 +26,16 @@
       padding: 20px;
       overflow-x: hidden;
     }
-    h1 { font-size: 2.2rem; margin-bottom: 8px; color: #d63384; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
-    .subtitle { font-size: 1.05rem; margin-bottom: 20px; color: #57606f; }
+    h1 { font-size: 2.2rem; margin-bottom: 8px; color: #d63384; text-shadow: 1px 1px 2px rgba(0,0,0,0.05); }
+    .subtitle { font-size: 1.05rem; margin-bottom: 12px; color: #ff4757; font-weight: 600; }
+    .warning-text { font-size: 0.95rem; color: #57606f; margin-bottom: 8px; }
 
     /* Interactive Cake */
     .cake-container {
       position: relative;
       width: 200px;
       height: 160px;
-      margin: 15px auto;
+      margin: 20px auto;
       cursor: pointer;
     }
     .plate {
@@ -70,7 +71,7 @@
     /* Quiz Container */
     .quiz-box {
       display: none; background: white; padding: 25px; border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15); max-width: 440px; width: 100%;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 440px; width: 100%;
       margin-top: 20px; position: relative; animation: popIn 0.4s ease-out;
     }
     @keyframes popIn {
@@ -97,7 +98,7 @@
     /* Final Wish Card */
     .card {
       display: none; background: white; padding: 25px; border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15); max-width: 440px; width: 100%;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 440px; width: 100%;
       margin-top: 20px; animation: popIn 0.5s ease-out;
     }
     .card h2 { color: #ff4757; margin-bottom: 12px; }
@@ -140,12 +141,12 @@
 
   <div class="toast" id="toast">⚠️ Wrong answer, silly! Try again 😜</div>
 
-  <h1>Happy Birthday, Umaaaaa! 🎂</h1>
+  <h1>Happy Birthday, Umaaaaa! 🎂🎉</h1>
   <p class="subtitle instruction">MAKE SURE TO HAVE SOME RECORDING ATLEAST TO SHARE TO FRIENDSSSS!!!!😘😘💕</p> 
-    
-    <p>Tap the cake to blow out the candles & unlock your surprise!</p>
-    <p>""DONTT EVER TRY TO PICK THE WRONG ANSWERRSSSSSS!!""😠😠😠😠😠😠😠</p>
-    <p>"This berry berry importantu so choose wise... I'm watchingg!!!🥸🧐😈</p>
+  
+  <p class="warning-text">Tap the cake to blow out the candles & unlock your surprise! 🕯️</p>
+  <p class="warning-text">"DONTT EVER TRY TO PICK THE WRONG ANSWERRSSSSSS!!" 😠😠😠😠😠😠😠</p>
+  <p class="warning-text">"This berry berry importantu so choose wise... I'm watchingg!!!" 🥸🧐😈</p>
 
   <div class="cake-container" onclick="blowCandles()">
     <div class="candle candle-1"><div class="flame"></div></div>
@@ -195,7 +196,7 @@
 
   <script>
     // ⚠️ REPLACE THIS WITH YOUR REAL UPI ID (e.g. '9876543210@ybl' or 'yourname@okicici')
-    const YOUR_UPI_ID = "gayathirigopalakrishnan02-2@okhdfcbank"; 
+    const YOUR_UPI_ID = "gayathirigopalakrishnan02-2okhdfcbank"; 
 
     let blownOut = false;
     let currentQ = 0;
@@ -219,7 +220,7 @@
         q: "Q3: How much do you love your favorite sibling right now? 🙈",
         options: [
           { text: "Infinite / Beyond measure! 🚀", correct: true },
-          { text: "Just 10% 👎", correct: false, warning: "This!! You're truly hopeless!!!" 😒😒😒}
+          { text: "Just 10% 👎", correct: false, warning: "This!! You're truly hopeless!!! 😒😒😒" }
         ]
       }
     ];
@@ -295,7 +296,7 @@
             btn.style.transform = `translate(${randomX}px, ${randomY}px)`;
           };
 
-          // Reset behavior when mouse leaves
+          // Reset behavior when pointer leaves
           const reset = () => {
             btn.style.transform = 'translate(0px, 0px)';
           };
