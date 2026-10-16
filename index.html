@@ -189,17 +189,17 @@
       <h3 style="margin-top: 10px;">Just kidding, birthday girl! 🥳</h3>
       <div class="amount">₹1,000</div>
       <p style="color: #666; font-size: 0.9rem; margin-bottom: 20px;">
-        Gayathiri's UPI ID copied to clipboard! Tap below to open Google Pay and request ₹1,000 from her! ❤️
+        Tap below to open Google Pay and tap <b>Request</b> to get your ₹1,000 from Gayathiri! ❤️
       </p>
       <button class="gpay-btn" style="width: 100%; justify-content: center;" onclick="triggerGPayRequest()">
-        🚀 Request ₹1,000 on GPay
+        📲 Open GPay & Request ₹1,000
       </button>
     </div>
   </div>
 
   <script>
-    // ⚠️ REPLACE THIS WITH YOUR OWN UPI ID (so she requests ₹1,000 FROM YOU!)
-    const YOUR_UPI_ID = "gayathirigopalakrishnan02-2@okhdfcbank"; 
+    // ⚠️ Put YOUR phone number (linked to GPay) or your UPI ID here:
+    const YOUR_PHONE_OR_UPI = "gayathirigopalakrishnan02-2@okhdfcbank"; 
 
     let blownOut = false;
     let currentQ = 0;
@@ -321,27 +321,22 @@
       setTimeout(() => { t.style.opacity = '0'; }, 1800);
     }
 
-    // Prank Twist & Request ₹1,000 From Your UPI ID
+    // Prank Twist
     function openGPayReward() {
       const confirmSend = confirm("⚠️ Are you sure you want to send ₹1,000 to your favorite sissy?");
       
       if (confirmSend) {
         confetti({ particleCount: 200, spread: 100, origin: { y: 0.5 } });
         document.getElementById('gpayModal').style.display = 'flex';
-
-        // Auto-copy your UPI ID to her clipboard
-        if (navigator.clipboard) {
-          navigator.clipboard.writeText(YOUR_UPI_ID);
-        }
       }
     }
 
     function triggerGPayRequest() {
-      showToast("Opening Google Pay... Tap Request!");
+      showToast("Opening GPay... Tap Request! 💸");
       setTimeout(() => {
-        // Opens GPay app directly on mobile
-        window.location.href = "https://pay.google.com/";
-      }, 800);
+        // Direct GPay deep link to open your profile chat where she can tap 'Request'
+        window.location.href = `upi://pay?pa=${encodeURIComponent(YOUR_PHONE_OR_UPI)}&pn=Gayathiri`;
+      }, 600);
     }
 
     function closeGPay() {
