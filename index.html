@@ -7,14 +7,14 @@
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <style>
     :root {
-      --primary: #ff4757;
-      --bg: #fff0f3;
+      --primary: #70a1ff;
+      --bg: #fcfcfd;
       --card-bg: #ffffff;
-      --accent: #ff6b81;
+      --accent: #a29bfe;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background: linear-gradient(135deg, #ffffff 0%, #f8f5ff 50%, #f0eaff 100%);
+      background: #fcfcfd;
       font-family: 'Segoe UI', Roboto, sans-serif;
       min-height: 100vh;
       display: flex;
@@ -26,11 +26,11 @@
       padding: 20px;
       overflow-x: hidden;
     }
-    h1 { font-size: 2.2rem; margin-bottom: 8px; color: #d63384; text-shadow: 1px 1px 2px rgba(0,0,0,0.05); }
+    h1 { font-size: 2.2rem; margin-bottom: 8px; color: #6c5ce7; text-shadow: 1px 1px 2px rgba(0,0,0,0.05); }
     .subtitle { font-size: 1.05rem; margin-bottom: 12px; color: #ff4757; font-weight: 600; }
     .warning-text { font-size: 0.95rem; color: #57606f; margin-bottom: 8px; }
 
-    /* Interactive Cake */
+    /* Interactive Cake with Lavender & Blue Layers */
     .cake-container {
       position: relative;
       width: 200px;
@@ -39,7 +39,7 @@
       cursor: pointer;
     }
     .plate {
-      width: 240px; height: 15px; background: #e0e0e0;
+      width: 240px; height: 15px; background: #dfe4ea;
       border-radius: 10px; position: absolute; bottom: 0; left: -20px;
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
@@ -53,7 +53,7 @@
     }
     .candle {
       position: absolute; width: 12px; height: 35px;
-      background: repeating-linear-gradient(45deg, #70a1ff, #70a1ff 5px, #fff 5px, #fff 10px);
+      background: repeating-linear-gradient(45deg, #ff7675, #ff7675 5px, #fff 5px, #fff 10px);
       bottom: 110px; border-radius: 3px;
     }
     .candle-1 { left: 45px; } .candle-2 { left: 94px; } .candle-3 { left: 143px; }
@@ -71,24 +71,25 @@
     /* Quiz Container */
     .quiz-box {
       display: none; background: white; padding: 25px; border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 440px; width: 100%;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08); max-width: 440px; width: 100%;
       margin-top: 20px; position: relative; animation: popIn 0.4s ease-out;
+      border: 1px solid #f1f2f6;
     }
     @keyframes popIn {
       0% { transform: scale(0.8); opacity: 0; }
       100% { transform: scale(1); opacity: 1; }
     }
-    .quiz-box h3 { color: #ff4757; margin-bottom: 15px; font-size: 1.25rem; line-height: 1.4; }
+    .quiz-box h3 { color: #6c5ce7; margin-bottom: 15px; font-size: 1.25rem; line-height: 1.4; }
     .options-grid {
       display: flex; flex-direction: column; gap: 12px; margin-top: 15px; position: relative;
     }
     .btn-option {
-      background: #f1f2f6; border: 2px solid #dfe4ea; padding: 12px 18px;
+      background: #f8f9fa; border: 2px solid #dfe4ea; padding: 12px 18px;
       border-radius: 12px; font-size: 1rem; font-weight: 600; color: #2f3542;
       cursor: pointer; transition: background 0.2s, transform 0.2s, top 0.2s, left 0.2s;
       width: 100%; position: relative;
     }
-    .btn-option.correct:hover { background: #eccc68; border-color: #ffa502; transform: scale(1.02); }
+    .btn-option.correct:hover { background: #ffeaa7; border-color: #fdcb6e; transform: scale(1.02); }
 
     /* Runaway dodging button style */
     .btn-option.runaway {
@@ -98,10 +99,10 @@
     /* Final Wish Card */
     .card {
       display: none; background: white; padding: 25px; border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-width: 440px; width: 100%;
-      margin-top: 20px; animation: popIn 0.5s ease-out;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08); max-width: 440px; width: 100%;
+      margin-top: 20px; animation: popIn 0.5s ease-out; border: 1px solid #f1f2f6;
     }
-    .card h2 { color: #ff4757; margin-bottom: 12px; }
+    .card h2 { color: #6c5ce7; margin-bottom: 12px; }
     .card p { font-size: 1rem; line-height: 1.6; color: #57606f; margin-bottom: 20px; }
 
     .gpay-btn {
@@ -196,7 +197,7 @@
 
   <script>
     // ⚠️ REPLACE THIS WITH YOUR REAL UPI ID (e.g. '9876543210@ybl' or 'yourname@okicici')
-    const YOUR_UPI_ID = "gayathirigopalakrishnan02-2okhdfcbank"; 
+    const YOUR_UPI_ID = "gayathirigopalakrishnan02-2@okhdfcbank"; 
 
     let blownOut = false;
     let currentQ = 0;
@@ -220,7 +221,7 @@
         q: "Q3: How much do you love your favorite sibling right now? 🙈",
         options: [
           { text: "Infinite / Beyond measure! 🚀", correct: true },
-          { text: "Just 10% 👎", correct: false, warning: "This!! You're truly hopeless!!! 😒😒😒" }
+          { text: "Just 10% 👎", correct: false, warning: "This!! You're truly hopeless!!!" }
         ]
       }
     ];
